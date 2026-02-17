@@ -42,7 +42,7 @@ Anyone who wants their own AI assistant but doesn't know where to start. No prio
 ## Author
 
 **Chris Walloch** — Healthcare IT leader & AI automation enthusiast  
-[GitHub](https://github.com/ChrisWalloch) · [LinkedIn](https://www.linkedin.com/in/christopher-walloch/)
+[GitHub](https://github.com/ChrisWalloch) · [LinkedIn](https://www.linkedin.com/in/chris-walloch/)
 
 ## License
 
