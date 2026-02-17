@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw Setup Flowchart — From Zero to AI Assistant</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+  body { 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0d1117; 
+    color: #c9d1d9; 
+    margin: 0; 
+    padding: 20px;
+  }
+  h1 { color: #58a6ff; text-align: center; margin-bottom: 5px; }
+  .subtitle { text-align: center; color: #8b949e; margin-bottom: 30px; font-size: 14px; }
+  .chart-container { 
+    background: #161b22; 
+    border-radius: 12px; 
+    padding: 30px; 
+    margin: 0 auto;
+    max-width: 1400px;
+    overflow-x: auto;
+  }
+  .legend {
+    max-width: 1400px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .legend-item {
+    background: #161b22;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 13px;
+  }
+  .legend-item .dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .section-title { 
+    max-width: 1400px; 
+    margin: 30px auto 10px; 
+    color: #58a6ff; 
+    font-size: 18px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<h1>🦞 OpenClaw Setup — From Zero to AI Assistant</h1>
+<div class="subtitle">Complete decision tree for first-time setup. Every layer, every choice.<br>By <a href="https://github.com/ChrisWalloch" style="color:#58a6ff;">Chris Walloch</a></div>
+
+<div class="legend">
+  <div class="legend-item"><span class="dot" style="background:#f0883e"></span> Decision Point</div>
+  <div class="legend-item"><span class="dot" style="background:#3fb950"></span> Action / Install Step</div>
+  <div class="legend-item"><span class="dot" style="background:#58a6ff"></span> Choice / Option</div>
+  <div class="legend-item"><span class="dot" style="background:#bc8cff"></span> Configuration</div>
+  <div class="legend-item"><span class="dot" style="background:#f778ba"></span> Use Case / End State</div>
+</div>
+
+<div class="section-title">Layer 1: Hardware — What Are You Running On?</div>
+<div class="chart-container">
+<pre class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px'}}}%%
+flowchart TD
+    START([🦞 I want to set up OpenClaw]) --> HW{What hardware do you have?}
+    
+    HW -->|Desktop/Laptop| HW_DESK{Operating System?}
+    HW -->|Server/VPS| HW_SERVER[Linux VPS<br/>DigitalOcean, Hetzner,<br/>AWS, etc.]
+    HW -->|Single Board| HW_SBC{Which SBC?}
+    HW -->|Nothing yet| HW_BUY{Budget?}
+    
+    HW_DESK -->|macOS| MAC[Mac — Apple Silicon<br/>or Intel]
+    HW_DESK -->|Linux| LINUX[Linux Desktop<br/>Ubuntu, Debian, Fedora]
+    HW_DESK -->|Windows| WIN[Windows 11<br/>via WSL2]
+    
+    HW_SBC -->|Raspberry Pi 4/5| PI[Raspberry Pi<br/>ARM64, 4GB+ RAM]
+    HW_SBC -->|Other ARM| ARM[Other ARM SBC<br/>Orange Pi, etc.]
+    
+    HW_BUY -->|Under $100| BUY_PI[Get a Raspberry Pi 5<br/>4GB = $60, 8GB = $80]
+    HW_BUY -->|$100-500| BUY_MINI[Used Mac Mini M1/M2<br/>or Linux mini PC]
+    HW_BUY -->|$500+| BUY_NEW[Mac Mini M4 $499<br/>or MacBook Air $1099]
+    
+    MAC --> NODE_REQ[✅ Requirements Met:<br/>Node.js 22+]
+    LINUX --> NODE_REQ
+    WIN --> WSL[Install WSL2 first<br/>wsl --install] --> NODE_REQ
+    PI --> NODE_REQ
+    ARM --> NODE_REQ
+    HW_SERVER --> NODE_REQ
+    BUY_PI --> PI
+    BUY_MINI --> MAC
+    BUY_NEW --> MAC
+
+    NODE_REQ --> INSTALL[npm i -g openclaw<br/>openclaw onboard]
+
+    style START fill:#f0883e,stroke:#f0883e,color:#000
+    style HW fill:#f0883e,stroke:#f0883e,color:#000
+    style HW_DESK fill:#f0883e,stroke:#f0883e,color:#000
+    style HW_BUY fill:#f0883e,stroke:#f0883e,color:#000
+    style HW_SBC fill:#f0883e,stroke:#f0883e,color:#000
+    style INSTALL fill:#3fb950,stroke:#3fb950,color:#000
+    style NODE_REQ fill:#3fb950,stroke:#3fb950,color:#000
+    style WSL fill:#3fb950,stroke:#3fb950,color:#000
+    style MAC fill:#58a6ff,stroke:#58a6ff,color:#000
+    style LINUX fill:#58a6ff,stroke:#58a6ff,color:#000
+    style WIN fill:#58a6ff,stroke:#58a6ff,color:#000
+    style PI fill:#58a6ff,stroke:#58a6ff,color:#000
+    style ARM fill:#58a6ff,stroke:#58a6ff,color:#000
+    style HW_SERVER fill:#58a6ff,stroke:#58a6ff,color:#000
+    style BUY_PI fill:#58a6ff,stroke:#58a6ff,color:#000
+    style BUY_MINI fill:#58a6ff,stroke:#58a6ff,color:#000
+    style BUY_NEW fill:#58a6ff,stroke:#58a6ff,color:#000
+</pre>
+</div>
+
+<div class="section-title">Layer 2: LLM Provider — Where Does the Brain Come From?</div>
+<div class="chart-container">
+<pre class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px'}}}%%
+flowchart TD
+    INSTALL([openclaw onboard]) --> LLM{LLM Provider?}
+    
+    LLM -->|Cloud API — Best Quality| CLOUD{Which provider?}
+    LLM -->|Local LLM — Free & Private| LOCAL{Local setup}
+    LLM -->|Free Tier — $0 Cost| FREE{Free options}
+    LLM -->|Proxy/Gateway| PROXY{Proxy services}
+    
+    CLOUD -->|Recommended| ANTH[Anthropic<br/>Claude Opus / Sonnet<br/>Best for agents]
+    CLOUD --> OAI[OpenAI<br/>GPT-5.2 / Codex<br/>Great for coding]
+    CLOUD --> GOOG[Google<br/>Gemini 2.5 Flash<br/>Fast & cheap]
+    CLOUD --> XAI[xAI / Grok<br/>Good for search]
+    
+    LOCAL --> OLLAMA[Ollama<br/>Qwen3, Llama 3.3,<br/>DeepSeek R1]
+    LOCAL --> VLLM[vLLM<br/>Higher performance<br/>needs GPU]
+    
+    FREE --> OR_FREE[OpenRouter Free<br/>Llama 3.3 70B, DeepSeek R1<br/>50 req/day]
+    FREE --> GAIS[Google AI Studio<br/>Gemini Flash free<br/>20 req/day]
+    FREE --> GROQ[Groq / Cerebras<br/>Ultra-fast inference<br/>Free tiers]
+    
+    PROXY --> OR[OpenRouter<br/>100+ models, one API key]
+    PROXY --> VERCEL[Vercel AI Gateway]
+    PROXY --> CF[Cloudflare AI Gateway]
+    PROXY --> VEN[Venice AI<br/>Privacy-first]
+    
+    ANTH --> CONFIG_MODEL[Set in config:<br/>agents.defaults.model.primary]
+    OAI --> CONFIG_MODEL
+    GOOG --> CONFIG_MODEL
+    XAI --> CONFIG_MODEL
+    OLLAMA --> CONFIG_MODEL
+    VLLM --> CONFIG_MODEL
+    OR_FREE --> CONFIG_MODEL
+    GAIS --> CONFIG_MODEL
+    GROQ --> CONFIG_MODEL
+    OR --> CONFIG_MODEL
+    VERCEL --> CONFIG_MODEL
+    CF --> CONFIG_MODEL
+    VEN --> CONFIG_MODEL
+    
+    CONFIG_MODEL --> COST{Monthly budget?}
+    COST -->|$0| COST_FREE[Local LLM or free tiers<br/>Limited quality/speed]
+    COST -->|$5-20| COST_LOW[Sonnet for daily use<br/>Haiku for cron jobs]
+    COST -->|$20-50| COST_MID[Opus for chat<br/>Sonnet for automation]
+    COST -->|$50+| COST_HIGH[Opus everywhere<br/>Multiple agents<br/>Heavy cron]
+
+    style INSTALL fill:#3fb950,stroke:#3fb950,color:#000
+    style LLM fill:#f0883e,stroke:#f0883e,color:#000
+    style CLOUD fill:#f0883e,stroke:#f0883e,color:#000
+    style LOCAL fill:#f0883e,stroke:#f0883e,color:#000
+    style FREE fill:#f0883e,stroke:#f0883e,color:#000
+    style PROXY fill:#f0883e,stroke:#f0883e,color:#000
+    style COST fill:#f0883e,stroke:#f0883e,color:#000
+    style ANTH fill:#58a6ff,stroke:#58a6ff,color:#000
+    style OAI fill:#58a6ff,stroke:#58a6ff,color:#000
+    style GOOG fill:#58a6ff,stroke:#58a6ff,color:#000
+    style XAI fill:#58a6ff,stroke:#58a6ff,color:#000
+    style OLLAMA fill:#58a6ff,stroke:#58a6ff,color:#000
+    style VLLM fill:#58a6ff,stroke:#58a6ff,color:#000
+    style OR_FREE fill:#58a6ff,stroke:#58a6ff,color:#000
+    style GAIS fill:#58a6ff,stroke:#58a6ff,color:#000
+    style GROQ fill:#58a6ff,stroke:#58a6ff,color:#000
+    style OR fill:#58a6ff,stroke:#58a6ff,color:#000
+    style VERCEL fill:#58a6ff,stroke:#58a6ff,color:#000
+    style CF fill:#58a6ff,stroke:#58a6ff,color:#000
+    style VEN fill:#58a6ff,stroke:#58a6ff,color:#000
+    style CONFIG_MODEL fill:#bc8cff,stroke:#bc8cff,color:#000
+    style COST_FREE fill:#bc8cff,stroke:#bc8cff,color:#000
+    style COST_LOW fill:#bc8cff,stroke:#bc8cff,color:#000
+    style COST_MID fill:#bc8cff,stroke:#bc8cff,color:#000
+    style COST_HIGH fill:#bc8cff,stroke:#bc8cff,color:#000
+</pre>
+</div>
+
+<div class="section-title">Layer 3: Channel — How Do You Talk to It?</div>
+<div class="chart-container">
+<pre class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px'}}}%%
+flowchart TD
+    READY([Model configured]) --> CHAN{How do you want<br/>to talk to it?}
+    
+    CHAN -->|Mobile first| MOBILE{Phone messaging}
+    CHAN -->|Desktop first| DESKTOP{Desktop apps}
+    CHAN -->|Team/Group| TEAM{Collaboration}
+    CHAN -->|Just CLI| CLI[Terminal only<br/>No channel needed<br/>Use Control UI]
+    
+    MOBILE -->|Easiest setup| TELE[Telegram ⭐<br/>Create bot via BotFather<br/>Paste token, done]
+    MOBILE -->|Most popular| WA[WhatsApp<br/>QR code pairing<br/>Uses your phone number]
+    MOBILE -->|Privacy focused| SIG[Signal<br/>signal-cli setup<br/>More complex]
+    MOBILE -->|Apple ecosystem| IMSG[iMessage<br/>Requires Mac host<br/>BlueBubbles server]
+    
+    DESKTOP --> DISC[Discord<br/>Create bot in Dev Portal<br/>Servers + DMs]
+    DESKTOP --> SLACK[Slack<br/>Bolt SDK app<br/>Workspace install]
+    DESKTOP --> IRC_C[IRC<br/>Any IRC server<br/>Lightweight]
+    
+    TEAM --> DISC
+    TEAM --> SLACK
+    TEAM --> GCHAT[Google Chat<br/>Workspace app<br/>HTTP webhook]
+    TEAM --> MSTEAMS[Microsoft Teams<br/>Bot Framework<br/>Enterprise]
+    TEAM --> MM[Mattermost<br/>Self-hosted Slack alt]
+    
+    TELE --> SECURITY{DM Security?}
+    WA --> SECURITY
+    SIG --> SECURITY
+    IMSG --> SECURITY
+    DISC --> SECURITY
+    SLACK --> SECURITY
+    CLI --> SECURITY
+    IRC_C --> SECURITY
+    GCHAT --> SECURITY
+    MSTEAMS --> SECURITY
+    MM --> SECURITY
+    
+    SECURITY -->|Just me| SEC_ALLOW[allowFrom: your ID only<br/>Locked to you]
+    SECURITY -->|Me + trusted| SEC_PAIR[Pairing mode<br/>Approve new users]
+    SECURITY -->|Anyone| SEC_OPEN[Open mode<br/>⚠️ Use with caution]
+    
+    SEC_ALLOW --> MULTI_CHAN{Add more channels?}
+    SEC_PAIR --> MULTI_CHAN
+    SEC_OPEN --> MULTI_CHAN
+    
+    MULTI_CHAN -->|Yes| CHAN
+    MULTI_CHAN -->|No| USE_CASES([→ Configure Use Cases])
+
+    style READY fill:#3fb950,stroke:#3fb950,color:#000
+    style CHAN fill:#f0883e,stroke:#f0883e,color:#000
+    style MOBILE fill:#f0883e,stroke:#f0883e,color:#000
+    style DESKTOP fill:#f0883e,stroke:#f0883e,color:#000
+    style TEAM fill:#f0883e,stroke:#f0883e,color:#000
+    style SECURITY fill:#f0883e,stroke:#f0883e,color:#000
+    style MULTI_CHAN fill:#f0883e,stroke:#f0883e,color:#000
+    style TELE fill:#58a6ff,stroke:#58a6ff,color:#000
+    style WA fill:#58a6ff,stroke:#58a6ff,color:#000
+    style SIG fill:#58a6ff,stroke:#58a6ff,color:#000
+    style IMSG fill:#58a6ff,stroke:#58a6ff,color:#000
+    style DISC fill:#58a6ff,stroke:#58a6ff,color:#000
+    style SLACK fill:#58a6ff,stroke:#58a6ff,color:#000
+    style CLI fill:#58a6ff,stroke:#58a6ff,color:#000
+    style IRC_C fill:#58a6ff,stroke:#58a6ff,color:#000
+    style GCHAT fill:#58a6ff,stroke:#58a6ff,color:#000
+    style MSTEAMS fill:#58a6ff,stroke:#58a6ff,color:#000
+    style MM fill:#58a6ff,stroke:#58a6ff,color:#000
+    style SEC_ALLOW fill:#bc8cff,stroke:#bc8cff,color:#000
+    style SEC_PAIR fill:#bc8cff,stroke:#bc8cff,color:#000
+    style SEC_OPEN fill:#bc8cff,stroke:#bc8cff,color:#000
+    style USE_CASES fill:#f778ba,stroke:#f778ba,color:#000
+</pre>
+</div>
+
+<div class="section-title">Layer 4: Use Cases — What Do You Want It to Do?</div>
+<div class="chart-container">
+<pre class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px'}}}%%
+flowchart TD
+    UC([Channel connected!<br/>Now what?]) --> GOAL{Primary use case?}
+    
+    GOAL -->|Personal Assistant| PA[Daily briefings<br/>Calendar mgmt<br/>Reminders<br/>Web search]
+    GOAL -->|Coding Agent| CODE[Code generation<br/>Debugging<br/>Git automation<br/>PR reviews]
+    GOAL -->|Business/Research| BIZ[Market research<br/>Data analysis<br/>Report generation<br/>Competitive intel]
+    GOAL -->|Trading/Finance| TRADE[Market scanners<br/>Delta screeners<br/>Earnings tracking<br/>Options flow]
+    GOAL -->|Content/Social| CONTENT[Newsletter digests<br/>Social monitoring<br/>LinkedIn automation<br/>Content pipeline]
+    GOAL -->|Home/Infra| HOME[Server monitoring<br/>Self-healing<br/>Smart home<br/>IoT control]
+    
+    PA --> ENHANCE{Enhance with...}
+    CODE --> ENHANCE
+    BIZ --> ENHANCE
+    TRADE --> ENHANCE
+    CONTENT --> ENHANCE
+    HOME --> ENHANCE
+    
+    ENHANCE --> E_CRON[⏰ Cron Jobs<br/>Scheduled tasks<br/>Automated reports]
+    ENHANCE --> E_MULTI[👥 Multi-Agent<br/>Specialized agents<br/>Different models per role]
+    ENHANCE --> E_BROWSER[🌐 Browser Automation<br/>Scraping, logins<br/>JS-heavy sites]
+    ENHANCE --> E_MEMORY[🧠 Memory & RAG<br/>Long-term recall<br/>Knowledge base]
+    ENHANCE --> E_SKILLS[🔧 Skills<br/>ClawHub marketplace<br/>Custom skills]
+    ENHANCE --> E_NODES[📱 Node Pairing<br/>Phone camera/location<br/>Remote devices]
+    ENHANCE --> E_HOOKS[🪝 Webhooks<br/>Gmail hooks<br/>GitHub events<br/>External triggers]
+    
+    E_CRON --> DONE([🦞 You're Running OpenClaw!])
+    E_MULTI --> DONE
+    E_BROWSER --> DONE
+    E_MEMORY --> DONE
+    E_SKILLS --> DONE
+    E_NODES --> DONE
+    E_HOOKS --> DONE
+
+    style UC fill:#3fb950,stroke:#3fb950,color:#000
+    style GOAL fill:#f0883e,stroke:#f0883e,color:#000
+    style ENHANCE fill:#f0883e,stroke:#f0883e,color:#000
+    style PA fill:#f778ba,stroke:#f778ba,color:#000
+    style CODE fill:#f778ba,stroke:#f778ba,color:#000
+    style BIZ fill:#f778ba,stroke:#f778ba,color:#000
+    style TRADE fill:#f778ba,stroke:#f778ba,color:#000
+    style CONTENT fill:#f778ba,stroke:#f778ba,color:#000
+    style HOME fill:#f778ba,stroke:#f778ba,color:#000
+    style E_CRON fill:#bc8cff,stroke:#bc8cff,color:#000
+    style E_MULTI fill:#bc8cff,stroke:#bc8cff,color:#000
+    style E_BROWSER fill:#bc8cff,stroke:#bc8cff,color:#000
+    style E_MEMORY fill:#bc8cff,stroke:#bc8cff,color:#000
+    style E_SKILLS fill:#bc8cff,stroke:#bc8cff,color:#000
+    style E_NODES fill:#bc8cff,stroke:#bc8cff,color:#000
+    style E_HOOKS fill:#bc8cff,stroke:#bc8cff,color:#000
+    style DONE fill:#3fb950,stroke:#3fb950,color:#000
+</pre>
+</div>
+
+<div class="section-title">Complete Path — Quick Reference</div>
+<div class="chart-container">
+<pre class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px'}}}%%
+flowchart LR
+    A[1. Pick Hardware<br/>Mac/Linux/Pi/VPS] --> B[2. Install Node 22+<br/>npm i -g openclaw]
+    B --> C[3. Pick LLM<br/>Cloud/Local/Free]
+    C --> D[4. openclaw onboard<br/>Enter API key]
+    D --> E[5. Pick Channel<br/>Telegram recommended]
+    E --> F[6. Configure Security<br/>allowFrom / pairing]
+    F --> G[7. openclaw start<br/>Send first message!]
+    G --> H[8. Add Use Cases<br/>Cron, skills, agents]
+    
+    style A fill:#58a6ff,stroke:#58a6ff,color:#000
+    style B fill:#3fb950,stroke:#3fb950,color:#000
+    style C fill:#58a6ff,stroke:#58a6ff,color:#000
+    style D fill:#3fb950,stroke:#3fb950,color:#000
+    style E fill:#58a6ff,stroke:#58a6ff,color:#000
+    style F fill:#bc8cff,stroke:#bc8cff,color:#000
+    style G fill:#3fb950,stroke:#3fb950,color:#000
+    style H fill:#f778ba,stroke:#f778ba,color:#000
+</pre>
+</div>
+
+<script>
+mermaid.initialize({ 
+  startOnLoad: true, 
+  theme: 'dark',
+  flowchart: { 
+    useMaxWidth: true,
+    htmlLabels: true,
+    curve: 'basis'
+  }
+});
+</script>
+</body>
+</html>
